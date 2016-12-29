@@ -14,7 +14,7 @@ syntax on
 "--------
 " color scheme
 set background=dark
-color vividchalk
+" color solarized
 
 " highlight current line
 au WinLeave * set nocursorline nocursorcolumn
@@ -28,11 +28,13 @@ set ignorecase
 set smartcase
 
 " editor settings
+set hlsearch
 set history=1000
 set nocompatible
 set nofoldenable                                                  " disable folding"
 set confirm                                                       " prompt when existing from an unsaved file
 set backspace=indent,eol,start                                    " More powerful backspacing
+set cc=100
 set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
 set mouse=a                                                       " use mouse in all modes
 set report=0                                                      " always report number of lines changed                "
@@ -53,9 +55,9 @@ set smartindent     " indent when
 set tabstop=4       " tab width
 set softtabstop=4   " backspace
 set shiftwidth=4    " indent width
-" set textwidth=79
-" set smarttab
 set expandtab       " expand tab to space
+
+" Custom
 
 autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
@@ -155,7 +157,7 @@ let NERDSpaceDelims=1
 let NERDCompactSexyComs=1
 
 " ZenCoding
-let g:user_zen_expandabbr_key='<C-j>'
+let g:user_emmet_expandabbr_key='<C-j>'
 
 " powerline
 "let g:Powerline_symbols = 'fancy'
@@ -181,9 +183,13 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.erlang = '[a-zA-Z]\|:'
 
 " SuperTab
-"let g:SuperTabDefultCompletionType='context'
+" let g:SuperTabDefultCompletionType='context'
 let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 let g:SuperTabRetainCompletionType=2
 
@@ -192,6 +198,8 @@ set wildignore+=*/tmp/*,*.so,*.o,*.a,*.obj,*.swp,*.zip,*.pyc,*.pyo,*.class,.DS_S
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 
 " Keybindings for plugin toggle
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
 nmap <F5> :TagbarToggle<cr>
 nmap <F6> :NERDTreeToggle<cr>
 nmap <F3> :GundoToggle<cr>
@@ -218,11 +226,17 @@ autocmd BufReadPost *
       \ endif
 
 " w!! to sudo & write a file
-cmap w!! w !sudo tee >/dev/null %
+cmap w!! %!sudo tee >/dev/null %
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" sublime key bindings
+nmap <D-]> >>
+nmap <D-[> <<
+vmap <D-[> <gv
+vmap <D-]> >gv
 
 " eggcache vim
 nnoremap ; :
